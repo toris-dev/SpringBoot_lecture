@@ -1,5 +1,5 @@
 ### Get Request with a header
 
-GET http://localhost:8080/developer/TOM
+DELETE http://localhost:8080/developer/TOM
 Accept: application/json
 

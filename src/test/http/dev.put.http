@@ -1,6 +1,6 @@
 ### Send POST request with json body
 
-PUT http://localhost:8080/developer/Tony
+PUT http://localhost:8080/developer/TOM
 Content-Type: application/json
 
 {
