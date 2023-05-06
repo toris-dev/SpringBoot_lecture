@@ -2,6 +2,7 @@ package com.example.programming.dmaker.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,7 @@ public class DMakerController {
     @GetMapping("/developers")
     public List<DeveloperDto> getAllDevelopers() {
         log.info("GET /developers HTTP/1.1");
-        return dMakerService.getAllDevelopers();
+        return dMakerService.getAllEmployedDeveloper();
     }
 
     @GetMapping("/developer/{memberId}")
@@ -55,5 +56,11 @@ public class DMakerController {
 
         return dMakerService.editDeveloper(memberId, request);
 
+    }
+
+    @DeleteMapping("/developer/{memberId}")
+    public DeveloperDetailDto deleteDeveloper(
+            @PathVariable String memberId) {
+        return dMakerService.deleteDeveloper(memberId);
     }
 }

@@ -3,11 +3,14 @@ package com.example.programming.dmaker.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.programming.dmaker.code.StatusCode;
 import com.example.programming.dmaker.dto.CreateDeveloper;
 import com.example.programming.dmaker.dto.DeveloperDetailDto;
 import com.example.programming.dmaker.dto.DeveloperDto;
 import com.example.programming.dmaker.dto.EditDeveloper;
 import com.example.programming.dmaker.entity.Developer;
+import com.example.programming.dmaker.entity.RetiredDeveloper;
+
 import static com.example.programming.dmaker.exception.DMakerErrorCode.*;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.stream.Collectors;
 
 import com.example.programming.dmaker.exception.DMakerException;
 import com.example.programming.dmaker.repository.DeveloperRepository;
+import com.example.programming.dmaker.repository.RetiredDeveloperRepository;
 import com.example.programming.dmaker.type.DeveloperLevel;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class DMakerService {
     private final DeveloperRepository developerRepository;
+    private final RetiredDeveloperRepository retiredDeveloperRepository;
 
     @Transactional
     public CreateDeveloper.Response createDeveloper(CreateDeveloper.Request request) {
@@ -34,6 +39,7 @@ public class DMakerService {
                 .developerSkillType(request.getDeveloperSkillType())
                 .experienceYears(request.getExperienceYears())
                 .name(request.getName())
+                .statusCode(StatusCode.EMPLOYED)
                 .age(request.getAge())
                 .memberId(request.getMemberId())
                 .build();
@@ -52,8 +58,8 @@ public class DMakerService {
                 }));
     }
 
-    public List<DeveloperDto> getAllDevelopers() {
-        return developerRepository.findAll()
+    public List<DeveloperDto> getAllEmployedDeveloper() {
+        return developerRepository.findDevelopersByStatusCodeEquals(StatusCode.EMPLOYED)
                 .stream()
                 .map(DeveloperDto::fromEntity)
                 .collect(Collectors.toList());
@@ -101,4 +107,35 @@ public class DMakerService {
 
         return DeveloperDetailDto.fromEntity(developer);
     }
+
+    @Transactional
+    public DeveloperDetailDto deleteDeveloper(String memberId) {
+        // 1. EMPLOYED -> RETIRED
+        Developer developer = developerRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new DMakerException(NO_DEVELOPER));
+        developer.setStatusCode(StatusCode.RETIRED);
+
+        /*
+         * 아래 if문 처럼 작성하면 트랜잭션을 하다가 예외가 걸려서 RetiredDeveloper을 저장하지 못하면 @Transactional
+         * 어노테이션이 롤백을 지원해준다.
+         * 하지만 @Transactional 설정을 안해놓는다면
+         * Developer table 에서는 트랜잭션이 성공하고
+         * RetiredDeveloper table 에서는 저장이 안되는 롤백이 안되는 일이 일어난다.....
+         * Atomic이 깨져버리는거다.
+         * 꼭 하나의 트랜잭션이라도 @Transactional 을 사용하자.
+         * 
+         * if(developer != null) throw new DMakerException(NO_DEVELOPER)
+         * 
+         */
+
+        // 2. save into RetiredDeveloper
+        RetiredDeveloper retiredDeveloper = RetiredDeveloper.builder()
+                .memberId(memberId)
+                .name(developer.getName())
+                .build();
+        retiredDeveloperRepository.save(retiredDeveloper);
+
+        return DeveloperDetailDto.fromEntity(developer);
+    }
+
 }
