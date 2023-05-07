@@ -58,7 +58,7 @@ public class DMakerService {
                 }));
     }
 
-    public List<DeveloperDto> getAllEmployedDeveloper() {
+    public List<DeveloperDto> getAllEmployedDevelopers() {
         return developerRepository.findDevelopersByStatusCodeEquals(StatusCode.EMPLOYED)
                 .stream()
                 .map(DeveloperDto::fromEntity)
