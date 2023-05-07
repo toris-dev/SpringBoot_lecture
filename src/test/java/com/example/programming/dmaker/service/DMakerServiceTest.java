@@ -1,41 +1,57 @@
 package com.example.programming.dmaker.service;
 
-import java.util.List;
+import static com.example.programming.dmaker.type.DeveloperLevel.SENIOR;
+import static com.example.programming.dmaker.type.DeveloperSkillType.FRONT_END;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.programming.dmaker.dto.CreateDeveloper;
-import com.example.programming.dmaker.dto.DeveloperDto;
-import com.example.programming.dmaker.type.DeveloperLevel;
-import com.example.programming.dmaker.type.DeveloperSkillType;
+import com.example.programming.dmaker.code.StatusCode;
+import com.example.programming.dmaker.dto.DeveloperDetailDto;
+import com.example.programming.dmaker.entity.Developer;
+import com.example.programming.dmaker.repository.DeveloperRepository;
+import com.example.programming.dmaker.repository.RetiredDeveloperRepository;
 
-@SpringBootTest
+/**
+ * Mockito를 이용하여 Test Code 작성
+ */
+
+@ExtendWith(MockitoExtension.class)
 public class DMakerServiceTest {
-    /*
-     * Test Code 에서 New 연산자를 사용해서 불러오지 않으며 Bean으로 등록을 해놨기 때문에
-     * SpringBootTest 어노테이션을 이용하면 어플리케이션을 실행한것과 비슷하게 모든 Bean을 다 띄어서 테스트를 돌려보는것이다.
-     * 통합테스트 라고도 한다.
-     * 이렇게 하게되면 격리성이 떨어지고 DB에 데이터가 있어야 가능한 테스트이다.
-     * 그래서 모킹 데이터 가 필요하다. Mockito 를 사용해보자
-     */
-    @Autowired
+    @Mock // 가상의 Mock으로 서비스 테스트 등록
+    private DeveloperRepository developerRepository;
+
+    @Mock
+    private RetiredDeveloperRepository retiredDeveloperRepository;
+
+    @InjectMocks // 위에 2개의 Mock을 넣어준다.
     private DMakerService dMakerService;
 
     @Test
     public void testSomething() {
-        dMakerService.createDeveloper(CreateDeveloper.Request.builder()
-                .developerLevel(DeveloperLevel.SENIOR)
-                .developerSkillType(DeveloperSkillType.FULL_STACK)
-                .experienceYears(13)
-                .memberId("memberId")
-                .name("tony")
-                .age(32)
-                .build());
-        List<DeveloperDto> allEmployedDeveloper = dMakerService.getAllEmployedDeveloper();
-        System.out.println("===========================");
-        System.out.println(allEmployedDeveloper);
-        System.out.println("===========================");
+        given(developerRepository.findByMemberId(anyString()))
+                .willReturn(Optional.of(Developer.builder()
+                        .developerLevel(SENIOR)
+                        .developerSkillType(FRONT_END)
+                        .experienceYears(13)
+                        .statusCode(StatusCode.EMPLOYED)
+                        .name("name")
+                        .age(12)
+                        .build()));
+
+        DeveloperDetailDto developerDetail = dMakerService.getDeveloperDetail("memberId");
+
+        assertEquals(SENIOR, developerDetail.getDeveloperLevel());
+        assertEquals(FRONT_END, developerDetail.getDeveloperSkillType());
+        assertEquals(13, developerDetail.getExperienceYears());
 
     }
 }
