@@ -26,32 +26,26 @@ import com.example.programming.dmaker.repository.RetiredDeveloperRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class DMakerServiceTest {
-    @Mock // 가상의 Mock으로 서비스 테스트 등록
-    private DeveloperRepository developerRepository;
+  @Mock // 가상의 Mock으로 서비스 테스트 등록
+  private DeveloperRepository developerRepository;
 
-    @Mock
-    private RetiredDeveloperRepository retiredDeveloperRepository;
+  @Mock
+  private RetiredDeveloperRepository retiredDeveloperRepository;
 
-    @InjectMocks // 위에 2개의 Mock을 넣어준다.
-    private DMakerService dMakerService;
+  @InjectMocks // 위에 2개의 Mock을 넣어준다.
+  private DMakerService dMakerService;
 
-    @Test
-    public void testSomething() {
-        given(developerRepository.findByMemberId(anyString()))
-                .willReturn(Optional.of(Developer.builder()
-                        .developerLevel(SENIOR)
-                        .developerSkillType(FRONT_END)
-                        .experienceYears(13)
-                        .statusCode(StatusCode.EMPLOYED)
-                        .name("name")
-                        .age(12)
-                        .build()));
+  @Test
+  public void testSomething() {
+    given(developerRepository.findByMemberId(anyString())).willReturn(
+        Optional.of(Developer.builder().developerLevel(SENIOR).developerSkillType(FRONT_END)
+            .experienceYears(13).statusCode(StatusCode.EMPLOYED).name("name").age(12).build()));
 
-        DeveloperDetailDto developerDetail = dMakerService.getDeveloperDetail("memberId");
+    DeveloperDetailDto developerDetail = dMakerService.getDeveloperDetail("memberId");
 
-        assertEquals(SENIOR, developerDetail.getDeveloperLevel());
-        assertEquals(FRONT_END, developerDetail.getDeveloperSkillType());
-        assertEquals(13, developerDetail.getExperienceYears());
+    assertEquals(SENIOR, developerDetail.getDeveloperLevel());
+    assertEquals(FRONT_END, developerDetail.getDeveloperSkillType());
+    assertEquals(13, developerDetail.getExperienceYears());
 
-    }
+  }
 }
