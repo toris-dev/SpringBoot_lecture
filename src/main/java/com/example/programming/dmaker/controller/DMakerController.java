@@ -24,43 +24,46 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 public class DMakerController {
-    private final DMakerService dMakerService;
+  private final DMakerService dMakerService;
 
-    @GetMapping("/developers")
-    public List<DeveloperDto> getAllDevelopers() {
-        log.info("GET /developers HTTP/1.1");
-        return dMakerService.getAllEmployedDevelopers();
-    }
+  @GetMapping("/developers")
+  public List<DeveloperDto> getAllDevelopers() {
+    log.info("GET /developers HTTP/1.1");
+    return dMakerService.getAllEmployedDevelopers();
+  }
 
-    @GetMapping("/developer/{memberId}")
-    public DeveloperDetailDto getDeveloperdetail(@PathVariable String memberId) {
-        log.info("GET /developers/{memberId} HTTP/1.1");
+  @GetMapping("/developer/{memberId}")
+  public DeveloperDetailDto getDeveloperdetail(@PathVariable
+  String memberId) {
+    log.info("GET /developers/{memberId} HTTP/1.1");
 
-        return dMakerService.getDeveloperDetail(memberId);
-    }
+    return dMakerService.getDeveloperDetail(memberId);
+  }
 
-    @PostMapping("/create-developer")
-    public CreateDeveloper.Response createDevelopers(
-            @Valid @RequestBody CreateDeveloper.Request request) { // @Valid 를 사용함으로 써 메소드에 진입하기전에 메소드notException이 발생
-        log.info("request: {}", request);
+  @PostMapping("/create-developer")
+  public CreateDeveloper.Response createDevelopers(@Valid
+  @RequestBody
+  CreateDeveloper.Request request) { // @Valid 를 사용함으로 써 메소드에 진입하기전에 메소드notException이 발생
+    log.info("request: {}", request);
 
-        return dMakerService.createDeveloper(request);
+    return dMakerService.createDeveloper(request);
 
-    }
+  }
 
-    @PutMapping("/developer/{memberId}")
-    public DeveloperDetailDto editDeveloper(
-            @PathVariable String memberId,
-            @Valid @RequestBody EditDeveloper.Request request) { // @Valid 를 사용함으로 써 메소드에 진입하기전에 메소드notException이 발생
-        log.info("request: {}", request);
+  @PutMapping("/developer/{memberId}")
+  public DeveloperDetailDto editDeveloper(@PathVariable
+  String memberId, @Valid
+  @RequestBody
+  EditDeveloper.Request request) { // @Valid 를 사용함으로 써 메소드에 진입하기전에 메소드notException이 발생
+    log.info("request: {}", request);
 
-        return dMakerService.editDeveloper(memberId, request);
+    return dMakerService.editDeveloper(memberId, request);
 
-    }
+  }
 
-    @DeleteMapping("/developer/{memberId}")
-    public DeveloperDetailDto deleteDeveloper(
-            @PathVariable String memberId) {
-        return dMakerService.deleteDeveloper(memberId);
-    }
+  @DeleteMapping("/developer/{memberId}")
+  public DeveloperDetailDto deleteDeveloper(@PathVariable
+  String memberId) {
+    return dMakerService.deleteDeveloper(memberId);
+  }
 }

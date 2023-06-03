@@ -14,7 +14,7 @@ import com.example.programming.dmaker.entity.Developer;
  */
 @Repository
 public interface DeveloperRepository extends JpaRepository<Developer, Long> {
-    Optional<Developer> findByMemberId(String memberId);
+  Optional<Developer> findByMemberId(String memberId);
 
-    List<Developer> findDevelopersByStatusCodeEquals(StatusCode statusCode);
+  List<Developer> findDevelopersByStatusCodeEquals(StatusCode statusCode);
 }

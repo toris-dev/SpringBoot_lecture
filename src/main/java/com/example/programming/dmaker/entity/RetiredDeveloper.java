@@ -26,17 +26,17 @@ import lombok.Setter;
 @EntityListeners(AuditingEntityListener.class)
 public class RetiredDeveloper {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  protected Long id;
 
-    private String memberId;
-    private String name;
+  private String memberId;
+  private String name;
 
-    @CreatedDate
-    private LocalDateTime createAt;
+  @CreatedDate
+  private LocalDateTime createAt;
 
-    @LastModifiedDate
-    private LocalDateTime updateAt;
+  @LastModifiedDate
+  private LocalDateTime updateAt;
 
 }

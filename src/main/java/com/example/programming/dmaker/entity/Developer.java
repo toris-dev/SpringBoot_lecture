@@ -32,29 +32,29 @@ import lombok.Setter;
 @EntityListeners(AuditingEntityListener.class)
 public class Developer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  protected Long id;
 
-    @Enumerated(EnumType.STRING)
-    private DeveloperLevel developerLevel;
+  @Enumerated(EnumType.STRING)
+  private DeveloperLevel developerLevel;
 
-    @Enumerated(EnumType.STRING)
-    private DeveloperSkillType developerSkillType;
+  @Enumerated(EnumType.STRING)
+  private DeveloperSkillType developerSkillType;
 
-    private Integer experienceYears;
-    private String memberId;
-    private String name;
-    private Integer age;
+  private Integer experienceYears;
+  private String memberId;
+  private String name;
+  private Integer age;
 
-    @Enumerated(EnumType.STRING)
-    private StatusCode statusCode;
+  @Enumerated(EnumType.STRING)
+  private StatusCode statusCode;
 
 
-    @CreatedDate
-    private LocalDateTime createAt;
+  @CreatedDate
+  private LocalDateTime createAt;
 
-    @LastModifiedDate
-    private LocalDateTime updateAt;
+  @LastModifiedDate
+  private LocalDateTime updateAt;
 
 }

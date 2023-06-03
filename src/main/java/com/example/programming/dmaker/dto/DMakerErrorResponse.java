@@ -14,6 +14,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class DMakerErrorResponse {
-    private DMakerErrorCode errorCode;
-    private String errorMessage;
+  private DMakerErrorCode errorCode;
+  private String errorMessage;
 }

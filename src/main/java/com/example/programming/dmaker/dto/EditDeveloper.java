@@ -19,25 +19,25 @@ import lombok.ToString;
  */
 public class EditDeveloper {
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    @ToString
-    public static class Request {
+  @Getter
+  @Setter
+  @AllArgsConstructor
+  @NoArgsConstructor
+  @Builder
+  @ToString
+  public static class Request {
 
-        @NotNull
-        private DeveloperLevel developerLevel;
+    @NotNull
+    private DeveloperLevel developerLevel;
 
-        @NotNull
-        private DeveloperSkillType developerSkillType;
+    @NotNull
+    private DeveloperSkillType developerSkillType;
 
-        @NotNull
-        @Min(0)
-        @Max(20)
-        private Integer experienceYears;
+    @NotNull
+    @Min(0)
+    @Max(20)
+    private Integer experienceYears;
 
-    }
+  }
 
 }

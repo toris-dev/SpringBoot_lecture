@@ -17,26 +17,22 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class DeveloperDetailDto {
-    private DeveloperLevel developerLevel;
-    private DeveloperSkillType developerSkillType;
+  private DeveloperLevel developerLevel;
+  private DeveloperSkillType developerSkillType;
 
-    private Integer experienceYears;
-    private StatusCode statusCode;
-    private String memberId;
-    private String name;
-    private Integer age;
+  private Integer experienceYears;
+  private StatusCode statusCode;
+  private String memberId;
+  private String name;
+  private Integer age;
 
-    // URI의 경로 변수를 받아 MemberId를 이용하여 자세한 유저 정보를 반환
-    public static DeveloperDetailDto fromEntity(Developer developer) {
-        return DeveloperDetailDto.builder()
-                .developerLevel(developer.getDeveloperLevel())
-                .developerSkillType(developer.getDeveloperSkillType())
-                .experienceYears(developer.getExperienceYears())
-                .statusCode(developer.getStatusCode())
-                .memberId(developer.getMemberId())
-                .name(developer.getName())
-                .age(developer.getAge())
-                .build();
+  // URI의 경로 변수를 받아 MemberId를 이용하여 자세한 유저 정보를 반환
+  public static DeveloperDetailDto fromEntity(Developer developer) {
+    return DeveloperDetailDto.builder().developerLevel(developer.getDeveloperLevel())
+        .developerSkillType(developer.getDeveloperSkillType())
+        .experienceYears(developer.getExperienceYears()).statusCode(developer.getStatusCode())
+        .memberId(developer.getMemberId()).name(developer.getName()).age(developer.getAge())
+        .build();
 
-    }
+  }
 }
